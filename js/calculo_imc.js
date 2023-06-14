@@ -119,7 +119,6 @@ function btn_calcular_imc(event) {
         const peso = inp_peso.value;
         const estatura = inp_estatura.value;
 
-        console.log(edad);
         let persona = new IMC(nombre.trim().toUpperCase(), parseInt(edad), parseFloat(peso), parseFloat(estatura));
         let imc = calculo_imprimir(persona);
         div_resultado.innerHTML = `<div class="alert alert-success alert-dismissible fade show" role="alert">
