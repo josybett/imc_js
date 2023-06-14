@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Calculadora IMC</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de índice de masa muscular</h1>
+        <form id="form_calcular">
+            <div class="mb-3">
+                <label for="inp_nombre" class="form-label">Nombre*</label>
+                <input type="text" class="form-control" id="inp_nombre" name="nombre" required placeholder="Ej. Jose">
+            </div>
+            <div class="mb-3">
+                <label for="inp_edad" class="form-label">Edad*</label>
+                <input type="number" class="form-control" id="inp_edad" name="edad" min="1" pattern="^[0-9]+" required placeholder="Ej. 25">
+                <span class="error" id="span_edad"></span>
+            </div>
+            <div class="mb-3">
+                <label for="inp_peso" class="form-label">Peso (kg)*</label>
+                <input type="number" class="form-control" id="inp_peso" name="peso" step="0.01" min="1" pattern="^[0-9]+" required placeholder="Ej. 70.5">
+                <span class="error" id="span_peso"></span>
+            </div>
+            <div class="mb-3">
+                <label for="inp_estatura" class="form-label">Estatura (m)*</label>
+                <input type="number" class="form-control" id="inp_estatura" name="estatura" step="0.01" min="1" pattern="^[0-9]+" required placeholder="Ej. 1.65">
+                <span class="error" id="span_estatura"></span>
+            </div>
+            <button type="submit" class="btn btn-primary" id="btn_calcular">Calcular</button>
+        </form>
+        
+        <div class="mb-3" id="resultado">
+        </div>
+
+        <div class="mb-3" id="resultado_filtro">
+            <h2>Buscar registros</h2>
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label for="inp_buscar_persona" class="col-form-label">Buscar por nombre</label>
+                </div>
+                <div class="col-auto">
+                    <input type="texte" id="inp_buscar_persona" class="form-control" name="buscar_persona" placeholder="Buscar Ej. Jose">
+                </div>
+                <div class="col-auto">
+                    <button type="button" id="btn_buscar_persona" class="btn btn-secondary">Buscar</button>
+                </div>
+            </div>
+            <div id="lista_filtro" class="lista_filtro_persona">
+            </div>
+        </div>
+    </div>
+
+
+    <script src="js/calculo_imc.js"></script>
+</body>
+</html>
