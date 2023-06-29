@@ -1,37 +1,6 @@
 //fórmula: peso (kg) / [estatura (m)]2
 // Cálculo de Índice de Masa Muscular
 
-class IMC {
-
-    constructor (nombre, edad, peso, estatura) {
-        this.nombre = nombre;
-        this.edad = edad;
-        this.peso = peso;
-        this.estatura = estatura;
-        this.imc = 0;
-    }
-
-    // METODOS
-    validar_datos() {
-        return (!isNaN(this.peso) && !isNaN(this.estatura));
-    }
-
-    calculo_imc() {
-        let validar = !this.validar_datos() ? false : Math.round(this.peso / (this.estatura * this.estatura));
-        return validar;
-    }
-}
-
-class RecomendacionesIMC {
-    resultado;
-    indicacion;
-
-    constructor () {
-        this.resultado = "";
-        this.indicacion = "";
-    }
-}
-
 function calculo_imprimir(persona) {
     let imc = persona.calculo_imc();
     if (imc != false) {
@@ -40,7 +9,7 @@ function calculo_imprimir(persona) {
     return persona;
 }
 
-function interpretar_imc(imc) {
+function interpretar_imc_old(imc) {
     let recomendacion = new RecomendacionesIMC();
     if (imc < 18.5) {
         recomendacion.resultado = "Bajo peso";
@@ -56,6 +25,16 @@ function interpretar_imc(imc) {
         recomendacion.indicacion = "Cuida de no comer grasas y muy pocos carbohidratos de cerelaes. Haz ejercicio a diario";
     }
     return recomendacion;
+}
+
+function interpretar_imc(imc) {
+    return new Promise((resolve) => {
+        fetch("data/recomendaciones.json")
+        .then( response => response.json() )
+        .then( data => {
+            resolve (data.find( (d) => { return imc >= d.min_imc && imc < d.max_imc }));
+        });
+    });
 }
 
 
@@ -121,14 +100,22 @@ function btn_calcular_imc(event) {
 
         let persona = new IMC(nombre.trim().toUpperCase(), parseInt(edad), parseFloat(peso), parseFloat(estatura));
         let imc = calculo_imprimir(persona);
-        div_resultado.innerHTML = `<div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    <strong>Registro exitoso!</strong> ${imc.nombre}, el resultado del cálculo de IMC es: ${imc.imc} </br>
-                                    Para más información, filtra por tu nombre.
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>`;
+        Toastify({
+            text: "Registro exitoso! "+ imc.nombre +", el resultado del cálculo de IMC es: "+ imc.imc +". Para más información, filtra por tu nombre",
+            className: "info",
+            duration: 10000,
+            style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+            }
+        }).showToast();
+
         let dataStorage = JSON.parse(localStorage.getItem("arr_personas") || '[]');
         let arreglo_JSON = JSON.stringify([...dataStorage, imc]);
         localStorage.setItem("arr_personas" , arreglo_JSON);
+        document.getElementById("inp_nombre").value = "";
+        inp_edad.value = "";
+        inp_peso.value = "";
+        inp_estatura.value = "";
     }
 }
 
@@ -136,7 +123,7 @@ function filtro_person_nombre(obj_imc) {
     return obj_imc.nombre == nombre_usuario.toUpperCase();
 }
 
-function buscar_persona() {
+async function buscar_persona() {
     let arr = localStorage.getItem("arr_personas");
     nombre_usuario = inp_buscar_persona.value;
     arr = JSON.parse(arr);
@@ -146,7 +133,7 @@ function buscar_persona() {
 
     for( let person of arr_filter ){
         let { nombre, edad, peso, estatura, imc } = person;
-        let { resultado, indicacion } = interpretar_imc(imc);
+        let { resultado, indicacion } = await interpretar_imc(imc);
         let lista = document.createElement("ul");
         lista.classList.add("list-group", "list-group-horizontal");
         lista.innerHTML = `<li class="list-group-item">${nombre}</li>

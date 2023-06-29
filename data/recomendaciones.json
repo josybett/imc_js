@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "resultado": "Bajo peso",
+        "indicacion": "Aumenta la ingesta de proteína, frutas y vegetales",
+        "min_imc": 0,
+        "max_imc": 18.5
+    },
+    {
+        "id": 2,
+        "resultado": "Peso Normal",
+        "indicacion": "No olvides la actividad física. Mantén una alimentación balanceada",
+        "min_imc": 18.5,
+        "max_imc": 25
+    },
+    {
+        "id": 3,
+        "resultado": "Sobrepeso",
+        "indicacion": "Prioriza la actividad física, reduce los carbohidratos y aumenta los vegetales",
+        "min_imc": 25,
+        "max_imc": 30
+    },
+    {
+        "id": 4,
+        "resultado": "Obesidad",
+        "indicacion": "Cuida de no comer grasas saturadas y muy pocos carbohidratos de cerelaes. Haz ejercicio a diario",
+        "min_imc": 30,
+        "max_imc": 1000
+    }
+]
